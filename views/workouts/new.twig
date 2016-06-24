@@ -1,0 +1,26 @@
+<form method="POST">
+    <ul>
+        <li>
+            Title: <input type="text" name="title">
+        </li>
+        <li>
+            Type:
+                <select name="type_select">
+                    {% for type in types %}
+                        <option value="{{ type.type }}">{{ type.type }}</option>
+                    {% endfor %}
+                </select>
+            or <input type="text" name="type_text" placeholder="Add a new type">
+        </li>
+        <li>
+            Duration: <input type="range" name="duration" min="0" max="180" value="30">
+        </li>
+        <li>
+            Reps: <input type="range" name="reps" min="0" max="180" value="30">
+        </li>
+        <li>
+            Comments: <input type="text" name="comments">
+        </li>
+        <li><input type="submit" value="Save Changes"></li>
+    </ul>
+</form>

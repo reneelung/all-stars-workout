@@ -1,0 +1,15 @@
+{% if workouts|length > 0 %}
+    {% for workout in workouts %}
+        <li>
+            <a href="./{{ workout.id }}">{{ workout.title }}</a> {{ workout.date }}
+            <ul>
+                <li>{{ workout.type }}</li>
+                <li>{{ workout.duration }} mins</li>
+                <li>{{ workout.comments }}</li>
+            </ul>
+        </li>
+    {% endfor %}
+{% else %}
+    You haven't logged any workouts yet!
+{% endif %}
+<a href="./new">Add a workout</a>

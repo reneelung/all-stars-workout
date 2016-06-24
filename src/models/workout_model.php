@@ -2,41 +2,38 @@
 //namespace TordAllStars;
 Class Workout {
 
-    protected $name;
-    protected $date;
-    protected $type;
+    function __construct() {
+        global $app;
 
-    function __construct($db) {
-        $this->db = $db;
-        $this->date = date(time());
-        $this->type = 'default';
-
+        $this->db = $app['db'];
+        $this->app = $app;
         return $this;
     }
 
-    public function get_workout($id) {
+    function get_workouts_by_user($user_id) {
+        return $this->db->fetchAll('SELECT * FROM `workouts` WHERE `user_id` = ?', array($user_id));
+    }
+
+    function get_workout($id) {
         return $this->db->fetchAssoc('SELECT * FROM `workouts` WHERE `workouts`.`id` = ?', array($id));
     }
 
-    public function save_workout($params, $id = null) {
-        $defaults = array(
-            'name' => 'Workout '. $this->new_id(),
-            'date' => $this->date,
-            'type' => $this->type,
-            'duration' => 0,
-            'reps' => 0,
-        );
-
-        $params = array_merge($defaults, $params);
-
-        if ($id) {
-            $this->db->update('workouts', $params, array('id' => $id));
-        } else {
-            $this->db->insert('workouts', $params);
-        }
+    function get_workout_types() {
+        return $this->db->fetchAll('SELECT DISTINCT `type` from `workouts`');
     }
 
-    public function delete_workout($id) {
+    function save_workout($params, $id = null) {
+
+        if ($id) {
+            $result = $this->db->update('workouts', $params, array('id' => $id));
+        } else {
+            $result = $this->db->insert('workouts', $params);
+        }
+
+        return $result;
+    }
+
+    function delete_workout($id) {
         $this->db->delete('workouts', array('id' => $id));
     }
 }
