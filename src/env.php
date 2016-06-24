@@ -1,2 +1,7 @@
 <?php
-    $app['env']['db_url'] = 'mysql://bb710f418623bc:2cff9494@us-cdbr-iron-east-04.cleardb.net/heroku_8b370682bd1ee9a?reconnect=true';
+    $environment = $_SERVER['SERVER_NAME'] == 'localhost' ? 'dev' : 'prod';
+    $path = $environment == 'dev' ? '/all-stars-workout/web' : '';
+
+    define('ENVIRONMENT', $environment);
+    define('APP_PATH', $path);
+    define('VIEWS_PATH', __DIR__ . '/../views/');
