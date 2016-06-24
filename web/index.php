@@ -2,8 +2,8 @@
     require_once __DIR__.'/../vendor/autoload.php';
     require_once __DIR__.'/../src/env.php';
     require_once __DIR__.'/../src/session.php';
-    require_once __DIR__.'/../src/models/user.php';
-    require_once __DIR__.'/../src/models/workout.php';
+    require_once __DIR__ . '/../src/models/user_model.php';
+    require_once __DIR__ . '/../src/models/workout_model.php';
 
     $app = new Silex\Application();
     $app['debug'] = true;

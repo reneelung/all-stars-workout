@@ -14,13 +14,12 @@ $app->post('/login', function(Request $request) use ($app){
     $username = $request->get('username');
     $password = $request->get('password');
 
-    $user_model = new User($app['db']);
+    $user_model = new User();
 
     if($user_model->login($username, $password))
     {
         $app['session']->set('is_user', true);
         $app['session']->set('is_logged_in', true);
-        $app['session']->set('user', $username);
         return $app->redirect( APP_PATH . '/index.php' );
     }
     else {

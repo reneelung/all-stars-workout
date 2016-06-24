@@ -2,17 +2,23 @@
 //namespace TordAllStars;
 Class User {
 
-    function __construct($db) {
-        $this->db = $db;
+    function __construct() {
+        global $app;
+
+        $this->db = $app['db'];
+        $this->app = $app;
         return $this;
     }
 
     function login($username, $password) {
-
         $query = "SELECT * FROM `users` WHERE `users`.`user_name` = ? OR `users`.`email` = ?";
         $user = $this->db->fetchAssoc($query, array($username, $username));
 
-        return $user['password'] == $password;
+        if ($user && $user['password'] == $password) {
+            $this->app['session']->set('user', $user);
+        };
+
+        return $user ? true : false;
     }
 
     function get_all() {
@@ -26,10 +32,13 @@ Class User {
     function save_user($params, $id = null) {
 
         if ($id) {
-            $this->db->update('user', $params, array('id' => $id));
+            $result = $this->db->update('users', $params, array('id' => $id));
+            $this->app['session']->set('user', $this->get_user($id));
         } else {
-            $this->db->insert('user', $params);
+            $result = $this->db->insert('users', $params);
         }
+
+        return $result;
     }
 
     function delete_workout($id) {

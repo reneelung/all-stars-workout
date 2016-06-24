@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__.'/../src/controllers/account.php';
-require_once __DIR__.'/../src/controllers/admin.php';
-require_once __DIR__.'/../src/controllers/login.php';
-require_once __DIR__.'/../src/controllers/workouts.php';
+require_once __DIR__ . '/../src/controllers/account_controller.php';
+require_once __DIR__ . '/../src/controllers/admin_controller.php';
+require_once __DIR__ . '/../src/controllers/login_controller.php';
+require_once __DIR__ . '/../src/controllers/workouts_controller.php';
 
 // Home Page
 $app->get('/', function() use ($app){
