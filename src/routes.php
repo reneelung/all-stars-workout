@@ -43,7 +43,7 @@ $app->post('/login', function(Request $request) use ($app){
     {
         $app['session']->set('is_user', true);
         $app['session']->set('user', $username);
-        return $app->redirect('/all-stars-workout/web/index.php');
+        return $app->redirect('/index.php');
     }
     return $app['twig']->render('login.twig');
 });
@@ -52,7 +52,7 @@ $app->post('/login', function(Request $request) use ($app){
 $app->get('/', function() use ($app){
     if(!$app['session']->get('is_user'))
     {
-        return $app->redirect('/all-stars-workout/web/index.php/login');
+        return $app->redirect('/index.php/login');
     }
     return $app['twig']->render('home.twig', array('user'=>$app['session']->get('user')));
 });
@@ -60,7 +60,7 @@ $app->get('/', function() use ($app){
 //logout
 $app->get('/logout', function() use ($app){
     $app['session']->clear();
-    return $app->redirect('/all-stars-workout/web/index.php/login');
+    return $app->redirect('/index.php/login');
 });
 
 $app->get('/', function () {
