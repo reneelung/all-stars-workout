@@ -1,5 +1,5 @@
 <?php
-namespace TordAllStars;
+//namespace TordAllStars;
 Class User {
 
     function __construct($db) {
@@ -7,19 +7,23 @@ Class User {
         return $this;
     }
 
-    public function login($username, $password) {
+    function login($username, $password) {
 
-        $query = "SELECT * FROM `users` WHERE `users`.`username` = ? OR `users`.`email` = ?";
+        $query = "SELECT * FROM `users` WHERE `users`.`user_name` = ? OR `users`.`email` = ?";
         $user = $this->db->fetchAssoc($query, array($username, $username));
 
         return $user['password'] == $password;
     }
 
-    public function get_user($id) {
+    function get_all() {
+        return $this->db->fetchAll('select * from `users`');
+    }
+
+    function get_user($id) {
         return $this->db->fetchAssoc('SELECT * FROM `users` WHERE `users`.`id` = ?', array($id));
     }
 
-    public function save_user($params, $id = null) {
+    function save_user($params, $id = null) {
 
         if ($id) {
             $this->db->update('user', $params, array('id' => $id));
@@ -28,7 +32,7 @@ Class User {
         }
     }
 
-    public function delete_workout($id) {
+    function delete_workout($id) {
         $this->db->delete('workouts', array('id' => $id));
     }
 }

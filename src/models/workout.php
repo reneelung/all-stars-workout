@@ -1,5 +1,5 @@
 <?php
-namespace TordAllStars;
+//namespace TordAllStars;
 Class Workout {
 
     protected $name;
