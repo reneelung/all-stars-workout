@@ -23,6 +23,7 @@
             $msg = $flash->has('msg') ? $flash->get('msg') : '';
         }
         $app['twig']->addGlobal('msg', $msg[0]);
+        $app['twig']->addGlobal('app_path', APP_PATH );
     });
 
     // Connect to DB

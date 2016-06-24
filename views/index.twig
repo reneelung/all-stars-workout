@@ -2,11 +2,11 @@
 <html>
 <head>
     {% block head %}
-        {% include "common/header.html" %}
+        {% include "common/header.twig" %}
     {% endblock %}
 </head>
 <body>
-<div id="nav">{% include "common/nav.html" %}</div>
+<div id="nav">{% include "common/nav.twig" %}</div>
 <div id="content">{% block content %}{% endblock %}</div>
 <div id="footer">
     {% block footer %}
