@@ -1,2 +1,5 @@
-hello {{ user.first_name }}.<br />
-<a href="./logout">click here to logout</a>
+{% extends "index.html" %}
+{% block content %}
+    hello {{ user.first_name }}.<br />
+    <a href="./logout">click here to logout</a>
+{% endblock %}

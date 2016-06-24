@@ -1,12 +1,15 @@
-{{ msg }}
-<form action="" method="post">
-    <fieldset>
-        <legend>username</legend>
-        <input type="test" name="username" id="username" value="" />
-    </fieldset>
-    <fieldset>
-        <legend>password</legend>
-        <input type="password" name="password" id="password" />
-    </fieldset>
-    <input type="submit" value="login" />
-</form>
+{% extends "index.html" %}
+{% block content %}
+    {{ msg }}
+    <form action="" method="post">
+        <fieldset>
+            <legend>username</legend>
+            <input type="test" name="username" id="username" value="" />
+        </fieldset>
+        <fieldset>
+            <legend>password</legend>
+            <input type="password" name="password" id="password" />
+        </fieldset>
+        <input type="submit" value="login" />
+    </form>
+{% endblock %}

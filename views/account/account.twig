@@ -1,5 +1,8 @@
+{% extends "index.html" %}
+{% block content %}
 <ul>
     <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
     <li>Email: {{ user.email }}</li>
     <li><a href="./edit">Edit my account</a></li>
 </ul>
+{% endblock %}

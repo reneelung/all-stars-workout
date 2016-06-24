@@ -1,6 +1,9 @@
+{% extends "index.html" %}
+{% block content %}
 {{ workout.title }}: {{ workout.date }}
 <ul>
     <li>{{ workout.type }}</li>
     <li>{{ workout.duration }} mins</li>
     <li>{{ workout.comments }}</li>
 </ul>
+{% endblock %}
