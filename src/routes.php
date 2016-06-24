@@ -1,6 +1,4 @@
 <?php
-use Symfony\Component\HttpFoundation\Request;
-
 require_once __DIR__.'/../src/controllers/account.php';
 require_once __DIR__.'/../src/controllers/admin.php';
 require_once __DIR__.'/../src/controllers/login.php';

@@ -1,4 +1,5 @@
 <?php
+use Symfony\Component\HttpFoundation\Request;
 
 //login form
 $app->get('/login', function() use ($app){
