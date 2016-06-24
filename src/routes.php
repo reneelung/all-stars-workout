@@ -39,7 +39,10 @@ $app->get('/login', function() use ($app){
 $app->post('/login', function(Request $request) use ($app){
     $username = $request->get('username');
     $password = $request->get('password');
-    if($username=='test' && $password=='test')
+
+    $user_model = new TordAllStars\User();
+
+    if($user_model->login($username, $password))
     {
         $app['session']->set('is_user', true);
         $app['session']->set('user', $username);

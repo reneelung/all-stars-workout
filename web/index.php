@@ -1,5 +1,7 @@
 <?php
-    require_once __DIR__.'/../vendor/autoload.php';
+    $loader = require_once __DIR__.'/../vendor/autoload.php';
+    $loader->add('TordAllStars', '/../src/models/');
+
     require_once __DIR__.'/../src/env.php';
 
     $app = new Silex\Application();
