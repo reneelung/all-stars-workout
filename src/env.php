@@ -16,9 +16,12 @@
         'pass' => '2cff9494'
     );
 
-    //$db_config = $environment == 'dev' ? $local_db_params : $db_params;
+    // $db_config = $environment == 'dev' ? $local_db_params : $db_params;
     $db_config = $db_params;
     define('DB_HOST', $db_config['host']);
     define('DB_NAME', $db_config['dbname']);
     define('DB_USER', $db_config['user']);
     define('DB_PASS', $db_config['pass']);
+
+    // Hashing Strings
+    define('SECRET_SALT', 'KTF6Y.6NXP,b?%Iqw?n9xlN$mckzpeP%e@%p#D559Yyzc7UQ!IF^lkbo0bM56#UJ');

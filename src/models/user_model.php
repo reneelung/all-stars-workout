@@ -14,11 +14,11 @@ Class User {
         $query = "SELECT * FROM `users` WHERE `users`.`user_name` = ? OR `users`.`email` = ?";
         $user = $this->db->fetchAssoc($query, array($username, $username));
 
-        if ($user && $user['password'] == $password) {
+        if ($user && $this->valid_password($password, $user)) {
             $this->app['session']->set('user', $user);
+            return true;
         };
-
-        return $user ? true : false;
+        return false;
     }
 
     function get_all() {
@@ -41,7 +41,26 @@ Class User {
         return $result;
     }
 
-    function delete_workout($id) {
-        $this->db->delete('workouts', array('id' => $id));
+    function obfuscate_password($pass, $id) {
+        $secret = SECRET_SALT;
+        $token = $this->generate_token();
+        $token_updated = $this->db->update('users', array('token' => $token), array('id' => $id));
+        if ($token_updated) {
+            return sha1($pass.$secret.$token);
+        }
+        return false;
+    }
+
+    function valid_password($pass, $user) {
+        return $user['password'] == sha1($pass.SECRET_SALT.$user['token']);
+    }
+
+    function generate_token($length = 16) {
+        $chars = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 1));
+        $token = '';
+        for ($i = 0; $i < $length; $i++) {
+            $token .= $chars[rand(0, count($chars) - 1)];
+        }
+        return $token;
     }
 }

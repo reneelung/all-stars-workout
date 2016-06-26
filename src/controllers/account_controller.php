@@ -15,6 +15,14 @@ $account->post('/edit', function(Request $request) use($app) {
 
     $user_model = new User();
     $user = $app['session']->get('user');
+
+    if ($request->get('password_change') == $request->get('password_confirm')) {
+        $obfuscated = $user_model->obfuscate_password($request->get('password_change'), $user['id']);
+        if ($obfuscated) {
+            $params['password'] = $obfuscated;
+        }
+    }
+
     if ($user_model->save_user($params, $user['id'])) {
         return $app->redirect( APP_PATH . '/account/' );
     }
