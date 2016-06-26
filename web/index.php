@@ -26,6 +26,15 @@
         $app['twig']->addGlobal('app_path', APP_PATH );
     });
 
+    $app->register(new Silex\Provider\AssetServiceProvider(), array(
+        'assets.version' => 'v1',
+        'assets.version_format' => '%s?version=%s',
+        'assets.named_packages' => array(
+            'css' => array('version' => 'css2', 'base_path' => ASSETS_PATH )
+        ),
+    ));
+
+
     // Connect to DB
     require_once __DIR__ . '/../src/db.php';
     // Set Up Routes
