@@ -19,4 +19,14 @@ $async->get('/workouts', function() use ($app) {
     }
 });
 
+$async->get('/workouts/type/{type}', function($type) use($app) {
+    $workout_model = new Workout();
+    $user = $app['session']->get('user');
+    $workouts_by_type = $workout_model->get_workouts_by_type($user['id'], $type);
+
+    if ($workouts_by_type) {
+        return $app->json($workouts_by_type);
+    }
+});
+
 $app->mount('/async', $async);

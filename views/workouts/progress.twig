@@ -1,4 +1,22 @@
 {% extends "index.twig" %}
 {% block content %}
-<div class="ct-chart"></div>
+    <h1>Workout Summary</h1>
+    <div class="pull-left">
+        <button class="summary btn btn-default btn-sm">Summary</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm">By Type</button>
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="by-type" href="#">View All</a></li>
+                <li role="separator" class="divider"></li>
+                {% for type in types %}
+                    <li><a class="by-type" href="#" id="{{ type }}">{{ type }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <canvas class="ct-chart"></canvas>
 {% endblock %}

@@ -19,7 +19,11 @@ Class Workout {
     }
 
     function get_workout_types() {
-        return $this->db->fetchAll('SELECT DISTINCT `type` from `workouts`');
+        $result = $this->db->fetchAll('SELECT DISTINCT `type` from `workouts`');
+        foreach ($result as $row) {
+           $types[] = $row['type'];
+        }
+        return $types;
     }
 
     function save_workout($params, $id = null) {
@@ -40,6 +44,27 @@ Class Workout {
             'by_date' => $workouts,
             'by_time' => $time_data
         );
+    }
+
+    function get_workouts_by_type($id, $type = 'undefined') {
+        $workouts = $this->get_workouts_by_user($id);
+        $types = $this->get_workout_types();
+        foreach ($types as $t) {
+            $times_by_type[$t] = array();
+        }
+        foreach($workouts as $workout) {
+            $dates[] = $workout['date'];
+            foreach ($types as $t) {
+                $times_by_type[$t][] = $workout['type'] == $t ? $workout['duration'] : 0;
+            }
+        }
+
+        if ($type != 'undefined') {
+            $times_by_type = array(
+                $type => $times_by_type[$type]
+            );
+        }
+        return array('dates' => $dates, 'types' => $times_by_type);
     }
 
     function get_workout_times($workouts) {

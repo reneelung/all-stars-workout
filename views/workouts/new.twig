@@ -9,7 +9,7 @@
             Type:
                 <select name="type_select">
                     {% for type in types %}
-                        <option value="{{ type.type }}">{{ type.type }}</option>
+                        <option value="{{ type }}">{{ type }}</option>
                     {% endfor %}
                 </select>
             or <input type="text" name="type_text" placeholder="Add a new type">

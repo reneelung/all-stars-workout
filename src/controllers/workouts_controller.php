@@ -10,7 +10,9 @@ $workouts->get('/', function() use($app) {
 });
 
 $workouts->get('/summary', function() use($app) {
-    return $app['twig']->render('/workouts/progress.twig');
+    $workout_model = new Workout();
+    $types = $workout_model->get_workout_types();
+    return $app['twig']->render('/workouts/progress.twig', array('types' => $types));
 });
 
 $workouts->get('/new', function() use($app) {
