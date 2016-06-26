@@ -1,18 +1,22 @@
 {% extends "index.twig" %}
 {% block content %}
-{% if workouts|length > 0 %}
-    {% for workout in workouts %}
-        <li>
-            <a href="./{{ workout.id }}">{{ workout.title }}</a> {{ workout.date }}
-            <ul>
-                <li>{{ workout.type }}</li>
-                <li>{{ workout.duration }} mins</li>
-                <li>{{ workout.comments }}</li>
-            </ul>
-        </li>
-    {% endfor %}
-{% else %}
-    You haven't logged any workouts yet!
-{% endif %}
-<a href="./new">Add a workout</a>
+        {% if workouts|length > 0 %}
+            {% for workout in workouts %}
+                <div>
+                    <h4>
+                        {{ workout.title }}
+                        <a href="./{{ workout.id }}" type="button" class=" pull-right btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> View</a>
+                    </h4>
+                    <p>{{ workout.type }}, {{ workout.duration }} mins</p>
+                    <p>{{ workout.comments }}</p>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <div class="jumbotron">
+                <h3>You haven't logged any workouts yet!</h3>
+                <p>Add a workout to start tracking your progress.</p>
+            </div>
+        {% endif %}
+        <a href="./new" class="btn btn-primary btn-lg">Add a workout</a>
 {% endblock %}

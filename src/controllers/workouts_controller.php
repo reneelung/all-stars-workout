@@ -8,6 +8,11 @@ $workouts->get('/', function() use($app) {
     $workouts = $workout_model->get_workouts_by_user($user['id']);
     return $app['twig']->render('/workouts/main.twig', array('user' => $user, 'workouts' => $workouts));
 });
+
+$workouts->get('/summary', function() use($app) {
+    return $app['twig']->render('/workouts/progress.twig');
+});
+
 $workouts->get('/new', function() use($app) {
     $user = $app['session']->get('user');
     $workout_model = new Workout();
