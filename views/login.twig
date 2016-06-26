@@ -1,15 +1,29 @@
 {% extends "index.twig" %}
 {% block content %}
-    {{ msg }}
-    <form action="" method="post">
-        <fieldset>
-            <legend>username</legend>
-            <input type="test" name="username" id="username" value="" />
-        </fieldset>
-        <fieldset>
-            <legend>password</legend>
-            <input type="password" name="password" id="password" />
-        </fieldset>
-        <input type="submit" value="login" />
-    </form>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="jumbotron">
+                    <h1>Oh hai!</h1>
+                    <p>Log in to track your workouts and see the team's progress.</p>
+                    {% if msg|length > 0 %}
+                        <div class="alert alert-{{ msg_type }}">
+                            {{ msg }}
+                        </div>
+                    {% endif %}
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <label for="username" id="basic-addon1">User Name</label>
+                            <input type="text" class="form-control input-lg" name="username" id="username" value=""/>
+                        </div>
+                        <div class="form-group">
+                            <label id="basic-addon2" for="password">Password</label>
+                            <input type="text" class="form-control input-lg" name="password" id="username" value="" aria-describedby="basic-addon2"/>
+                        </div>
+                        <input class="btn btn-primary btn-lg" type="submit" value="Login" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
 {% endblock %}

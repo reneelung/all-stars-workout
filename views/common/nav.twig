@@ -1,36 +1,40 @@
 <nav class="navbar navbar-default navbar-static-top navbar-inverse">
   <div class="container">
     <ul class="nav navbar-nav">
-      <li class="active">
+      <li>
         <a href="{{ app_path }}/"><span class="glyphicon glyphicon-home"></span> Home</a>
       </li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-info-sign"></span> Account<span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-          <li><a href="{{ app_path }}/account/">My account</a></li>
-          <li><a href="{{ app_path }}/account/edit">Edit my account</a></li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-info-sign"></span> My Workouts<span class="caret"></span></a>
+      {% if is_logged_in %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Account<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="{{ app_path }}/workouts/">View All</a></li>
-            <li><a href="{{ app_path }}/workouts/new">Add a workout</a></li>
-            <li><a href="{{ app_path }}/workouts/summary">My progress</a></li>
+            <li><a href="{{ app_path }}/account/">My account</a></li>
+            <li><a href="{{ app_path }}/account/edit">Edit my account</a></li>
           </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-info-sign"></span> Team<span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-          <li><a href="{{ app_path }}/team/">Team Progress</a></li>
-          <li><a href="{{ app_path }}/team/members">Team Members</a></li>
-        </ul>
-      </li>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-dashboard"></span> My Workouts<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="{{ app_path }}/workouts/">View All</a></li>
+              <li><a href="{{ app_path }}/workouts/new">Add a workout</a></li>
+              <li><a href="{{ app_path }}/workouts/summary">My progress</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-star"></span> Team<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ app_path }}/team/">Team Progress</a></li>
+            <li><a href="{{ app_path }}/team/members">Team Members</a></li>
+          </ul>
+        </li>
+      <{% endif %}
     </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li class="navbar-right">
-        <a href="{{ app_path }}/logout"><span class="glyphicon glyphicon-book"></span> Logout</a>
-      </li>
-    </ul>
+    {% if is_logged_in %}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-right">
+          <a href="{{ app_path }}/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+        </li>
+      </ul>
+    {% endif %}
   </div>
 </nav>

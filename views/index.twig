@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-    {% block head %}
-        {% include "common/header.twig" %}
-    {% endblock %}
-</head>
-<body>
-<div id="nav">{% include "common/nav.twig" %}</div>
-<div id="content">{% block content %}{% endblock %}</div>
-<div id="footer">
-    <small>footer here</small>
-</div>
-</body>
+    <head>
+        {% block head %}
+            {% include "common/header.twig" %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="nav">{% include "common/nav.twig" %}</div>
+        <div id="content">
+            <div class="container">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        <div class="container">
+            <div id="footer">
+
+            </div>
+        </div>
+    </body>
 </html>

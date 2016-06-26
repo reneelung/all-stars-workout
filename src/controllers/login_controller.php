@@ -23,7 +23,9 @@ $app->post('/login', function(Request $request) use ($app){
         return $app->redirect( APP_PATH . '/index.php' );
     }
     else {
-        return $app['twig']->render('login.twig', array('msg' => 'Incorrect login information'));
+        $app['session']->getFlashBag()->add('msg', 'Incorrect login information');
+        $app['session']->getFlashBag()->add('msg_type', 'danger');
+        return $app['twig']->render('login.twig');
     }
 
     return $app['twig']->render('login.twig');
@@ -33,5 +35,6 @@ $app->post('/login', function(Request $request) use ($app){
 $app->get('/logout', function() use ($app){
     $app['session']->clear();
     $app['session']->getFlashBag()->add('msg', 'Successfully logged out.');
+    $app['session']->getFlashBag()->add('msg_type', 'success');
     return $app->redirect( APP_PATH . '/index.php/login' );
 });

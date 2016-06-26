@@ -16,14 +16,14 @@
     use Silex\Provider\TwigServiceProvider;
     $app->register(new TwigServiceProvider());
     $app['twig.loader.filesystem']->addPath( VIEWS_PATH );
-    $app->before(function() use ($app){
+    $app->before(function() use ($app) {
         $flash = $app['session']->getFlashBag();
-        if($flash->has('msg'))
-        {
-            $msg = $flash->has('msg') ? $flash->get('msg') : '';
-        }
+        $msg = $flash->has('msg') ? $flash->get('msg') : '';
+        $msg_type = $flash->has('msg_type') ? $flash->get('msg_type') : '';
         $app['twig']->addGlobal('msg', $msg[0]);
+        $app['twig']->addGlobal('msg_type', $msg_type[0]);
         $app['twig']->addGlobal('app_path', APP_PATH );
+        $app['twig']->addGlobal('is_logged_in', $app['session']->get('is_logged_in'));
     });
 
     $app->register(new Silex\Provider\AssetServiceProvider(), array(
@@ -33,7 +33,6 @@
             'css' => array('version' => 'css2', 'base_path' => ASSETS_PATH )
         ),
     ));
-
 
     // Connect to DB
     require_once __DIR__ . '/../src/db.php';
