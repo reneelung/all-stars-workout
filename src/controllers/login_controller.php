@@ -1,6 +1,19 @@
 <?php
 use Symfony\Component\HttpFoundation\Request;
 
+// Home Page
+$app->get('/', function() use ($app){
+    if(!is_logged_in($app['session']))
+    {
+        return $app->redirect( APP_PATH . '/index.php/login' );
+    }
+    $workout_model = new Workout();
+    $greeting = random_greeting();
+    $user = $app['session']->get('user');
+    $summary = $workout_model->user_home_data($user['id']);
+    return $app['twig']->render('home.twig', array('user'=>$user, 'greeting' => $greeting, 'summary' => $summary));
+});
+
 //login form
 $app->get('/login', function() use ($app){
     if (is_logged_in($app['session'])) {
@@ -38,3 +51,15 @@ $app->get('/logout', function() use ($app){
     $app['session']->getFlashBag()->add('msg_type', 'success');
     return $app->redirect( APP_PATH . '/index.php/login' );
 });
+
+function random_greeting() {
+    $greetings = array(
+        'Hello',
+        'Hey',
+        'Yo',
+        '\'Sup',
+        'Hola'
+    );
+    shuffle($greetings);
+    return $greetings[0];
+}

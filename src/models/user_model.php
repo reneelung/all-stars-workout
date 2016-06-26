@@ -16,6 +16,7 @@ Class User {
 
         if ($user && $this->valid_password($password, $user)) {
             $this->app['session']->set('user', $user);
+            $this->db->update('users', array('last_login' => date('Y-m-d H:i:s')), array('id' => $user['id']));
             return true;
         };
         return false;

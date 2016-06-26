@@ -14,8 +14,22 @@ Class Workout {
         return $this->db->fetchAll('SELECT * FROM `workouts` WHERE `user_id` = ?', array($user_id));
     }
 
-    function get_workout($id) {
-        return $this->db->fetchAssoc('SELECT * FROM `workouts` WHERE `workouts`.`id` = ?', array($id));
+    function get_workout_data_by_user($id) {
+        $workouts = $this->get_workouts_by_user($id);
+        $time_data = $this->get_workout_times($workouts);
+        return array(
+            'by_date' => $workouts,
+            'by_time' => $time_data
+        );
+    }
+
+    function user_home_data($user_id) {
+        $workouts = $this->get_workouts_by_user($user_id);
+        $data['workouts_logged'] = count($workouts);
+        $data['longest_workout'] = $this->longest_workout($workouts);
+        $data['longest_streak'] = 3;
+
+        return $data;
     }
 
     function get_workout_types() {
@@ -24,26 +38,6 @@ Class Workout {
            $types[] = $row['type'];
         }
         return $types;
-    }
-
-    function save_workout($params, $id = null) {
-
-        if ($id) {
-            $result = $this->db->update('workouts', $params, array('id' => $id));
-        } else {
-            $result = $this->db->insert('workouts', $params);
-        }
-
-        return $result;
-    }
-
-    function get_workout_data_by_user($id) {
-        $workouts = $this->get_workouts_by_user($id);
-        $time_data = $this->get_workout_times($workouts);
-        return array(
-            'by_date' => $workouts,
-            'by_time' => $time_data
-        );
     }
 
     function get_workouts_by_type($id, $type = 'undefined') {
@@ -83,7 +77,36 @@ Class Workout {
         return $data;
     }
 
+    function get_workout($id) {
+        return $this->db->fetchAssoc('SELECT * FROM `workouts` WHERE `workouts`.`id` = ?', array($id));
+    }
+
+    function save_workout($params, $id = null) {
+
+        if ($id) {
+            $result = $this->db->update('workouts', $params, array('id' => $id));
+        } else {
+            $result = $this->db->insert('workouts', $params);
+        }
+
+        return $result;
+    }
+
     function delete_workout($id) {
         $this->db->delete('workouts', array('id' => $id));
+    }
+
+    // Calculations
+
+    function longest_workout($workouts) {
+        $longest['duration'] = 0;
+
+        foreach ($workouts as $workout) {
+            if ($workout['duration'] > $longest['duration']) {
+                $longest = $workout;
+            }
+        }
+
+        return $longest;
     }
 }

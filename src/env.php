@@ -25,3 +25,6 @@
 
     // Hashing Strings
     define('SECRET_SALT', 'KTF6Y.6NXP,b?%Iqw?n9xlN$mckzpeP%e@%p#D559Yyzc7UQ!IF^lkbo0bM56#UJ');
+
+    // Timezone
+    date_default_timezone_set('America/Toronto');

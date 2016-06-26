@@ -1,5 +1,36 @@
 {% extends "index.twig" %}
 {% block content %}
-    hello {{ user.first_name }}.<br />
-    <a href="./logout">click here to logout</a>
+    <div class="jumbotron">
+        <h1>{{ greeting }} {{ user.first_name }}!</h1>
+        <p>Last time you logged in: {{ user.last_login }}</p>
+    </div>
+    <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Your Stats</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <th>Workouts Logged</th>
+                                <td>{{ summary.workouts_logged }}</td>
+                            </tr>
+                            <tr>
+                                <th>Longest Workout</th>
+                                <td>{{ summary.longest_workout.title }}, {{ summary.longest_workout.duration }} mins</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">All Stars</h3>
+                    </div>
+                    <div class="panel-body"></div>
+                </div>
+            </div>
+    </div>
 {% endblock %}
