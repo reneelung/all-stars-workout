@@ -10,7 +10,7 @@ $(document).ready(function(){
 
     function summary() {
         $.get(
-            'http://localhost:8888/all-stars-workout/web/async/team/workouts',
+            '/async/team/workouts',
             {},
             function(response) {
                 var data = {
@@ -34,7 +34,7 @@ $(document).ready(function(){
 
     function by_type(type) {
         $.get(
-            'http://localhost:8888/all-stars-workout/web/async/team/workouts/type/' + type,
+            '/async/team/workouts/type/' + type,
             {},
             function(response) {
                 var data = {
