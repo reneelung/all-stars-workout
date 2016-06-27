@@ -9,6 +9,7 @@
             {% for workout in workouts %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <small>{{ workout.date | date("F jS, Y") }}</small>
                         <h4>
                             {{ workout.title }}
                             <a href="./{{ workout.id }}" type="button" class=" pull-right btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> View</a>
