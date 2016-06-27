@@ -40,7 +40,7 @@ $(document).ready(function(){
                 var data = {
                     labels : response.dates,
                     datasets : []
-                };console.log(response);
+                };
 
                 $.each(response.types, function(name, vals) {
                     data.datasets.push({
