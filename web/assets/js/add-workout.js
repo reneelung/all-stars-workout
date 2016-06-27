@@ -12,4 +12,13 @@ $(document).ready(function() {
             $('#type_text').addClass('hidden');
         }
     });
+
+    $('#datetimepicker-1').datetimepicker({
+        format: 'LL'
+    });
+
+    $('#datetimepicker-2').datetimepicker({
+        format: 'LT',
+        stepping: 30
+    });
 });

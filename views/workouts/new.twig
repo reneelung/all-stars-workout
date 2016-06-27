@@ -6,7 +6,8 @@
             <form method="post" data-toggle="validator">
                 <div class="form-group">
                     <label for="first_name">Title</label>
-                    <input type="text" class="form-control" name="title">
+                    <input type="text" class="form-control" name="title" required>
+                    <div class="help-block">Required</div>
                 </div>
                 <div class="form-group">
                     <label for="first_name">Type</label>
@@ -20,19 +21,28 @@
                 </div>
                 <div class="form-group">
                     <label for="date">Date</label>
-                    <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
-                        <input type="datetime" class="form-control" name="date">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
+                    <div class="form-inline">
+                        <div class="input-group date">
+                            <input type="text" id="datetimepicker-1" class="form-control" name="date">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </div>
+                        </div>
+                        <div class="input-group date">
+                            <input id="datetimepicker-2" type="text" class="form-control" name="time">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="duration">Duration</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" name="duration" placeholder="How long was your workout?" aria-describedby="duration">
+                        <input type="number" class="form-control" name="duration" placeholder="How long was your workout?" aria-describedby="duration" required>
                         <span class="input-group-addon" id="basic-addon2">minutes</span>
                     </div>
+                    <div class="help-block">Required</div>
                 </div>
                 <div class="form-group">
                     <label for="comments">Details</label>
