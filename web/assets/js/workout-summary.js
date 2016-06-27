@@ -1,11 +1,14 @@
 $(document).ready(function(){
 
+    var chartData = {}, lineChart;
+
     by_type();
+
     $('.summary').click(function() {
         summary();
     });
     $('.by-type').click(function() {
-        by_type($(this).attr('id'));
+        isolate_by_type($(this).attr('id'));
     });
 
     function summary() {
@@ -51,10 +54,30 @@ $(document).ready(function(){
                         lineTension: 0
                     });
                 });
-
-                lineChart = new Chart.Line($('.ct-chart'), { type: 'line', data: data});
+                chartData = data;
+                lineChart = new Chart.Line($('.ct-chart'), { type: 'line', data: chartData});
             }
         );
+    }
+
+    function isolate_by_type(type) {
+        $.each(chartData.datasets, function(i, obj){
+            if (obj.label !== type) {
+                obj.backgroundColor = changeChartOpacity(0.1, obj.backgroundColor);
+            } else {
+                obj.backgroundColor = changeChartOpacity(0.5, obj.backgroundColor);
+            }
+        });
+
+        lineChart.update();
+    }
+
+    function changeChartOpacity(targetOpacity, rgbaVal) {
+        var pattern = /[0-9]+,[0-9]+,[0-9]+,0?\.?[0-9]/;
+        var match = pattern.exec(rgbaVal);
+        matches = match[0].split(',');
+
+        return "rgba(" + [matches[0], matches[1], matches[2]].concat() + "," + targetOpacity + ")";
     }
 
     function randomColorFactor() {
