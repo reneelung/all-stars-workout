@@ -34,6 +34,8 @@
         ),
     ));
 
+    $app->register(new Silex\Provider\SwiftmailerServiceProvider());
+
     // Connect to DB
     require_once __DIR__ . '/../src/db.php';
     // Set Up Routes
