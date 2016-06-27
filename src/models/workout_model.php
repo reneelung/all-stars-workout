@@ -41,7 +41,7 @@ Class Workout {
     function get_workout_types() {
         $result = $this->db->fetchAll('SELECT DISTINCT `type` from `workouts`');
         foreach ($result as $row) {
-           $types[] = $row['type'];
+           $types[] = ucfirst($row['type']);
         }
         return $types;
     }

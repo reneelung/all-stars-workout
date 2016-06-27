@@ -13,7 +13,7 @@ $admin->get('/users', function() use ($app) {
 });
 
 $admin->get('/scripts/add_users', function(Request $request) use($app) {
-    $csv = array_map('str_getcsv', file('/assets/all-stars-contact-list.csv'));
+    $csv = array_map('str_getcsv', file('http://localhost:8888/all-stars-workout/web/assets/all-stars-contact-list.csv'));
     $user_model = new User();
     $fields = array('first_name', 'last_name', 'email', 'derby_name');
     $headers = array_pop(array_reverse($csv));
