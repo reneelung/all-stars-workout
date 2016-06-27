@@ -14,7 +14,7 @@
                 <li><a class="by-type" href="#">View All</a></li>
                 <li role="separator" class="divider"></li>
                 {% for type in types %}
-                    <li><a class="by-type" href="#" id="{{ type }}">{{ type }}</a></li>
+                    <li><a class="by-type" href="#" id="{{ type }}">{{ type | capitalize }}</a></li>
                 {% endfor %}
             </ul>
         </div>
