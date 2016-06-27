@@ -1,6 +1,11 @@
 {% extends "index.twig" %}
 {% block content %}
         <h1>Edit Your Account</h1>
+        {% for flashMessage in app.session.flashbag.get('account_notify') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
         <div class="jumbotron">
             <form method="POST" data-toggle="validator">
                 <div class="form-group">
@@ -15,8 +20,15 @@
                     <label for="first_name">Email</label>
                     <input type="text" class="form-control" name="email" value="{{ user.email }}">
                 </div>
+                <div class="form-group share-workouts">
+                    <label for="privacy">Share workouts?</label>
+                    <input class="pull-left" name="sharing" type="checkbox" {% if sharing_on %} checked{% endif %} data-toggle="toggle" value="1">
+                    <span id="helpBlock" class="help-block">
+                        Your workouts are private by default. Turn sharing to let your team members see your progress.
+                    </span>
+                </div>
                 <div class="form-group">
-                    <label for="inputPassword" class="control-label">Password</label>
+                    <label for="inputPassword" class="control-label">Change Password</label>
                     <input type="password" data-minlength="6" class="form-control" id="inputPassword" name="password_change" placeholder="Password">
                     <div class="help-block">Minimum of 6 characters</div>
                 </div>

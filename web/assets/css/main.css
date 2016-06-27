@@ -1,3 +1,13 @@
 #type_text {
     margin-top: 10px;
 }
+
+
+.share-workouts .toggle.btn {
+    float: right;
+    max-height: 35px !important;
+}
+
+.share-workouts > label {
+    line-height: 35px;
+}

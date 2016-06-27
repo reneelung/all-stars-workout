@@ -13,6 +13,10 @@ $account->post('/edit', function(Request $request) use($app) {
         $params[$field] = $request->get($field);
     }
 
+    if($request->get('sharing') == 1) {
+        $params['private'] = 0;
+    }
+
     $user_model = new User();
     $user = $app['session']->get('user');
 
@@ -24,13 +28,15 @@ $account->post('/edit', function(Request $request) use($app) {
     }
 
     if ($user_model->save_user($params, $user['id'])) {
-        return $app->redirect( APP_PATH . '/account/' );
+        $app['session']->getFlashBag()->add('account_notify', 'Changes saved. Way to go!');
+        return $app->redirect( APP_PATH . '/account/edit' );
     }
 });
 
 $account->get('/edit', function() use ($app) {
     $user = $app['session']->get('user');
-    return $app['twig']->render('/account/edit.twig', array('user' => $user));
+    $sharing_on = intval($user['private']) > 0 ? false : true;
+    return $app['twig']->render('/account/edit.twig', array('user' => $user, 'sharing_on' => $sharing_on));
 });
 
 $app->mount('/account', $account);
