@@ -40,12 +40,15 @@ $workouts->post('/new', function(Request $request) use($app) {
     $types = $workout_model->get_workout_types();
 
     $params['user_id'] = $user['id'];
-    $editable_fields = ['title', 'duration', 'reps', 'comments'];
+    $editable_fields = ['title', 'duration', 'comments'];
     foreach ($editable_fields as $field) {
         $params[$field] = $request->get($field);
     }
 
     $params['type'] = $request->get('type_text') ? $request->get('type_text') : $request->get('type_select');
+    $date = date("Y-m-d",strtotime($request->get('date')));
+    $time = date("H:i:s", strtotime($request->get('time')));
+    $params['date'] = "$date $time";
 
     $result = $workout_model->save_workout($params);
 
