@@ -46,8 +46,8 @@ Class Workout {
         return $types;
     }
 
-    function get_workouts_by_type($id, $type = 'undefined') {
-        $workouts = $this->get_workouts_by_user($id);
+    function get_workouts_by_type($id = null, $type = 'undefined') {
+        $workouts = $id ? $this->get_workouts_by_user($id) : $this->get_all_workouts();
         $types = $this->get_workout_types();
         foreach ($types as $t) {
             $times_by_type[$t] = array();
@@ -95,7 +95,11 @@ Class Workout {
             $result = $this->db->insert('workouts', $params);
         }
 
-        return $result;
+        if($result) {
+            return $id ? $this->get_workout($id) : $this->db->lastInsertId();
+        } else {
+            return false;
+        }
     }
 
     function delete_workout($id) {

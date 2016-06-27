@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    by_type();
+    summary();
     $('.summary').click(function() {
         summary();
     });
@@ -10,7 +10,7 @@ $(document).ready(function(){
 
     function summary() {
         $.get(
-            'http://localhost:8888/all-stars-workout/web/async/user/workouts',
+            'http://localhost:8888/all-stars-workout/web/async/team/workouts',
             {},
             function(response) {
                 var data = {
@@ -34,13 +34,13 @@ $(document).ready(function(){
 
     function by_type(type) {
         $.get(
-            'http://localhost:8888/all-stars-workout/web/async/user/workouts/type/' + type,
+            'http://localhost:8888/all-stars-workout/web/async/team/workouts/type/' + type,
             {},
             function(response) {
                 var data = {
                     labels : response.dates,
                     datasets : []
-                };console.log(response);
+                };
 
                 $.each(response.types, function(name, vals) {
                     data.datasets.push({
@@ -52,7 +52,7 @@ $(document).ready(function(){
                     });
                 });
 
-                lineChart = new Chart.Line($('.ct-chart'), { type: 'line', data: data});
+                lineChart = new Chart.Bar($('.ct-chart'), { type: 'line', data: data});
             }
         );
     }
