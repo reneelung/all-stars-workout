@@ -1,9 +1,9 @@
 {% extends "index.twig" %}
 {% block content %}
-{{ workout.title }}: {{ workout.date }}
-<ul>
-    <li>{{ workout.type }}</li>
-    <li>{{ workout.duration }} mins</li>
-    <li>{{ workout.comments }}</li>
-</ul>
+<h1>{{ workout.title }}</h1>
+    <p>
+        <em>{{ workout.date | date("F jS \\a\\t g:ia") }} for <strong>{{ workout.duration }} minutes</strong></em>
+    </p>
+    <p><strong>Workout Type:</strong> {{ workout.type | capitalize }}</p>
+    <p>{{ workout.comments }}</p>
 {% endblock %}
