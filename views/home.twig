@@ -16,6 +16,7 @@
                                 <th>Workouts Logged</th>
                                 <td>{{ summary.workouts_logged }}</td>
                             </tr>
+                            {% if summary.workouts_logged > 0 %}
                             <tr>
                                 <th>Longest Workout</th>
                                 <td>
@@ -26,6 +27,7 @@
                                 <th>Longest Streak</th>
                                 <td>{{ summary.longest_streak }} days</td>
                             </tr>
+                            {% endif %}
                         </table>
                     </div>
                 </div>
