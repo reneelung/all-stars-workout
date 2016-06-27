@@ -12,7 +12,7 @@ $async->get('/', function() use($app) {
 $async->get('/workouts', function() use ($app) {
     $workout_model = new Workout();
     $user = $app['session']->get('user');
-    $user_workouts = $workout_model->get_workout_data_by_user($user['id']);
+    $user_workouts = $workout_model->get_workout_data($user['id']);
 
     if ($user_workouts) {
         return $app->json($user_workouts);

@@ -2,7 +2,7 @@
 {% block content %}
     <div class="jumbotron">
         <h1>{{ greeting }} {{ user.first_name }}!</h1>
-        <p>Last time you logged in: {{ user.last_login }}</p>
+        <p>Last time you logged in: {{ user.last_login|date("F jS \\a\\t g:ia") }}</p>
     </div>
     <div class="row">
             <div class="col-lg-6">
@@ -18,7 +18,13 @@
                             </tr>
                             <tr>
                                 <th>Longest Workout</th>
-                                <td>{{ summary.longest_workout.title }}, {{ summary.longest_workout.duration }} mins</td>
+                                <td>
+                                    <a href="{{ app_path }}/workouts/{{ summary.longest_workout.id }}">{{ summary.longest_workout.title }}</a>, {{ summary.longest_workout.duration }} mins
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Longest Streak</th>
+                                <td>{{ summary.longest_streak }} days</td>
                             </tr>
                         </table>
                     </div>
@@ -29,7 +35,31 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">All Stars</h3>
                     </div>
-                    <div class="panel-body"></div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <th>Total Workouts Logged</th>
+                                <td>{{ team.workouts_logged }}</td>
+                            </tr>
+                            {% if team.new_workouts > 0 %}
+                                <tr>
+                                    <th>Workouts recorded since your last login</th>
+                                    <td>
+                                        {{ team.new_workouts }}
+                                            <span class="badge bg-danger">New!</span>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <th>Most Popular Type</th>
+                                <td>{{ team.popular_type }}</td>
+                            </tr>
+                            <tr>
+                                <th>Day with most recorded workouts</th>
+                                <td>{{ team.peak_day.date }}, <span class="badge">{{ team.peak_day.frequency }}</span></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
     </div>

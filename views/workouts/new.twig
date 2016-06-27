@@ -1,29 +1,49 @@
 {% extends "index.twig" %}
 {% block content %}
-<form method="POST">
-    <ul>
-        <li>
-            Title: <input type="text" name="title">
-        </li>
-        <li>
-            Type:
-                <select name="type_select">
-                    {% for type in types %}
-                        <option value="{{ type }}">{{ type }}</option>
-                    {% endfor %}
-                </select>
-            or <input type="text" name="type_text" placeholder="Add a new type">
-        </li>
-        <li>
-            Duration: <input type="range" name="duration" min="0" max="180" value="30">
-        </li>
-        <li>
-            Reps: <input type="range" name="reps" min="0" max="180" value="30">
-        </li>
-        <li>
-            Comments: <input type="text" name="comments">
-        </li>
-        <li><input type="submit" value="Save Changes"></li>
-    </ul>
-</form>
+    <div class="row">
+        <h1>Log a workout</h1>
+        <p>Nice work buddy!</p>
+        <div class="jumbotron">
+            <form method="post" data-toggle="validator">
+                <div class="form-group">
+                    <label for="first_name">Title</label>
+                    <input type="text" class="form-control" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="first_name">Type</label>
+                    <select name="type_select" id="type_select" class="form-control">
+                        {% for type in types %}
+                            <option value="{{ type }}">{{ type | capitalize }}</option>
+                        {% endfor %}
+                        <option value="add_new">Add a new type</option>
+                    </select>
+                    <input type="text" name="type_text" id="type_text" class="form-control hidden" placeholder="New workout type">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                        <input type="datetime" class="form-control" name="date">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="duration" placeholder="How long was your workout?" aria-describedby="duration">
+                        <span class="input-group-addon" id="basic-addon2">minutes</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comments">Details</label>
+                    <textarea name="comments" class="form-control" rows="4" placeholder="A short description of what you did during your workout; e.g., 3 sets of 10 pushups etc."></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Save Changes">
+                </div>
+            </form>
+        </div>
+    </div>
+<script type="text/javascript" src="{{ app_path }}/assets/js/add-workout.js"></script>
 {% endblock %}

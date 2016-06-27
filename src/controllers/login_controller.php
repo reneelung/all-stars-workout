@@ -10,8 +10,10 @@ $app->get('/', function() use ($app){
     $workout_model = new Workout();
     $greeting = random_greeting();
     $user = $app['session']->get('user');
-    $summary = $workout_model->user_home_data($user['id']);
-    return $app['twig']->render('home.twig', array('user'=>$user, 'greeting' => $greeting, 'summary' => $summary));
+    $summary = $workout_model->home_data($user['id']);
+    $team = $workout_model->home_data($user['id'], true);
+
+    return $app['twig']->render('home.twig', array('user'=>$user, 'greeting' => $greeting, 'summary' => $summary, 'team' => $team));
 });
 
 //login form
