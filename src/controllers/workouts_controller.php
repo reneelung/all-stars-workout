@@ -2,11 +2,20 @@
 use Symfony\Component\HttpFoundation\Request;
 
 $workouts = $app['controllers_factory'];
-$workouts->get('/', function() use($app) {
+$workouts->get('/', function(Request $request) use($app) {
     $workout_model = new Workout();
+    $user_model = new User();
     $user = $app['session']->get('user');
+    $visitor = false;
+    if ($request->get('member_id')) {
+        $requested_user = $user_model->get_user($request->get('member_id'));
+        if ($user_model->sharing_is_on($requested_user)) {
+            $user = $requested_user;
+            $visitor = true;
+        }
+    }
     $workouts = $workout_model->get_workouts_by_user($user['id']);
-    return $app['twig']->render('/workouts/main.twig', array('user' => $user, 'workouts' => $workouts));
+    return $app['twig']->render('/workouts/main.twig', array('user' => $user, 'workouts' => $workouts, 'visitor' => $visitor));
 });
 
 $workouts->get('/summary', function() use($app) {

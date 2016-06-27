@@ -1,7 +1,7 @@
 {% extends "index.twig" %}
 {% block content %}
     <div class="jumbotron">
-        <h1>{{ greeting }} {{ user.first_name }}!</h1>
+        <h1>{{ greeting }} {{ user.name }}!</h1>
         <p>Last time you logged in: {{ user.last_login|date("F jS \\a\\t g:ia") }}</p>
     </div>
     <div class="row">
@@ -11,7 +11,7 @@
                         <h3 class="panel-title">Your Stats</h3>
                     </div>
                     <div class="panel-body">
-                        <table class="table">
+                        <table class="table home-data">
                             <tr>
                                 <th>Workouts Logged</th>
                                 <td>{{ summary.workouts_logged }}</td>
@@ -36,7 +36,7 @@
                         <h3 class="panel-title">All Stars</h3>
                     </div>
                     <div class="panel-body">
-                        <table class="table">
+                        <table class="table home-data">
                             <tr>
                                 <th>Total Workouts Logged</th>
                                 <td>{{ team.workouts_logged }}</td>

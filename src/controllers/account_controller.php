@@ -8,7 +8,7 @@ $account->get('/', function() use($app) {
 });
 
 $account->post('/edit', function(Request $request) use($app) {
-    $editable_fields = ['first_name', 'last_name', 'email'];
+    $editable_fields = ['first_name', 'last_name', 'email', 'derby_name'];
     foreach ($editable_fields as $field) {
         $params[$field] = $request->get($field);
     }
@@ -20,7 +20,9 @@ $account->post('/edit', function(Request $request) use($app) {
     $user_model = new User();
     $user = $app['session']->get('user');
 
-    if ($request->get('password_change') == $request->get('password_confirm')) {
+    $new_password = $request->get('password_change');
+    $new_password_confirm = $request->get('password_confirm');
+    if ($new_password == $new_password_confirm && strlen($new_password)) {
         $obfuscated = $user_model->obfuscate_password($request->get('password_change'), $user['id']);
         if ($obfuscated) {
             $params['password'] = $obfuscated;

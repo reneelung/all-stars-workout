@@ -11,3 +11,8 @@
 .share-workouts > label {
     line-height: 35px;
 }
+
+.home-data.table > tbody > tr > th,
+.home-data.table > tbody > tr > td {
+    border: none;
+}

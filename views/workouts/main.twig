@@ -1,14 +1,24 @@
 {% extends "index.twig" %}
 {% block content %}
+    {% if visitor %}
+        <h1>{{ user.first_name }}'s Workouts</h1>
+        <hr>
+    {% endif %}
+
         {% if workouts|length > 0 %}
             {% for workout in workouts %}
-                <div>
-                    <h4>
-                        {{ workout.title }}
-                        <a href="./{{ workout.id }}" type="button" class=" pull-right btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> View</a>
-                    </h4>
-                    <p>{{ workout.type }}, {{ workout.duration }} mins</p>
-                    <p>{{ workout.comments }}</p>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>
+                            {{ workout.title }}
+                            <a href="./{{ workout.id }}" type="button" class=" pull-right btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> View</a>
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <strong> {{ workout.type | capitalize }}</strong>, <em>{{ workout.duration }} mins</em>
+                        </p>
+                    </div>
                 </div>
                 <hr>
             {% endfor %}
@@ -18,5 +28,7 @@
                 <p>Add a workout to start tracking your progress.</p>
             </div>
         {% endif %}
+    {% if not visitor %}
         <a href="./new" class="btn btn-primary btn-lg">Add a workout</a>
+    {% endif %}
 {% endblock %}

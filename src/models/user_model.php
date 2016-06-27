@@ -13,8 +13,8 @@ Class User {
     function login($username, $password) {
         $query = "SELECT * FROM `users` WHERE `users`.`user_name` = ? OR `users`.`email` = ?";
         $user = $this->db->fetchAssoc($query, array($username, $username));
-
         if ($user && $this->valid_password($password, $user)) {
+            $user = $this->get_user($user['id']);
             $this->app['session']->set('user', $user);
             $this->db->update('users', array('last_login' => date('Y-m-d H:i:s')), array('id' => $user['id']));
             return true;
@@ -23,15 +23,20 @@ Class User {
     }
 
     function get_all() {
+
         return $this->db->fetchAll('select * from `users`');
     }
 
     function get_user($id) {
-        return $this->db->fetchAssoc('SELECT * FROM `users` WHERE `users`.`id` = ?', array($id));
+        $user = $this->db->fetchAssoc('SELECT * FROM `users` WHERE `users`.`id` = ?', array($id));
+        $user['sharing_is_on'] = $user['private'] ? false : true;
+        if (isset($user['derby_name'])) {
+            $user['name'] = $user['derby_name'];
+        }
+        return $user;
     }
 
     function save_user($params, $id = null) {
-
         if ($id) {
             $result = $this->db->update('users', $params, array('id' => $id));
             $this->app['session']->set('user', $this->get_user($id));
@@ -53,6 +58,7 @@ Class User {
     }
 
     function valid_password($pass, $user) {
+        return sha1($pass.SECRET_SALT.$user['token']);
         return $user['password'] == sha1($pass.SECRET_SALT.$user['token']);
     }
 
@@ -63,5 +69,9 @@ Class User {
             $token .= $chars[rand(0, count($chars) - 1)];
         }
         return $token;
+    }
+
+    function sharing_is_on($user) {
+        return !$user['private'];
     }
 }

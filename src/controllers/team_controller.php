@@ -8,4 +8,10 @@ $team->get('/', function() use($app) {
     return $app['twig']->render('/team/progress.twig', array('types' => $types));
 });
 
+$team->get('/members', function() use($app) {
+    $user_model = new User();
+    $members = $user_model->get_all();
+    return $app['twig']->render('/team/members.twig', array('members' => $members));
+});
+
 $app->mount('/team', $team);

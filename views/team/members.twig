@@ -1,0 +1,26 @@
+{% extends "index.twig" %}
+{% block content %}
+    <h1>Team Mates</h1>
+    <div class="well well-lg">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>View Workouts</th>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                    <tr>
+                        <td>{{ member.first_name }} {{ member.last_name }}</td>
+                        <td>{{ member.email }}</td>
+                        <td>
+                            {% if member.private != 1 %}
+                                <a href="{{ app_path }}/workouts/?member_id={{ member.id }}">View Workouts</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
