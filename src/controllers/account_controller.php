@@ -8,7 +8,7 @@ $account->get('/', function() use($app) {
 });
 
 $account->post('/edit', function(Request $request) use($app) {
-    $editable_fields = ['first_name', 'last_name', 'email', 'derby_name'];
+    $editable_fields = ['first_name', 'last_name', 'email', 'derby_name', 'theme'];
     foreach ($editable_fields as $field) {
         $params[$field] = $request->get($field);
     }
@@ -31,6 +31,7 @@ $account->post('/edit', function(Request $request) use($app) {
 
     if ($user_model->save_user($params, $user['id'])) {
         $app['session']->getFlashBag()->add('account_notify', 'Changes saved. Way to go!');
+        $user_model->refresh_session_user_data();
         return $app->redirect( APP_PATH . '/account/edit' );
     }
 });

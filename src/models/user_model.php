@@ -74,4 +74,11 @@ Class User {
     function sharing_is_on($user) {
         return !$user['private'];
     }
+
+    function refresh_session_user_data() {
+        $current_user = $this->app['session']->get('user');
+        $refreshed = $this->get_user($current_user['id']);
+        $this->app['session']->set('user', $refreshed);
+        $this->app['session']->set('theme', $refreshed['theme']);
+    }
 }

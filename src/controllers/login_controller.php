@@ -35,6 +35,9 @@ $app->post('/login', function(Request $request) use ($app){
     {
         $app['session']->set('is_user', true);
         $app['session']->set('is_logged_in', true);
+
+        $user = $app['session']->get('user');
+        $app['session']->set('theme', $user['theme']);
         return $app->redirect( APP_PATH . '/index.php' );
     }
     else {

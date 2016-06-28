@@ -1,6 +1,14 @@
 <title>All Stars Workout</title>
-<link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-theme.min.css" />
+{% if theme == 'default' %}
+    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-theme.min.css" />
+{% endif %}
+{% if theme == 'dark' %}
+    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-darkly.min.css" />
+{% endif %}
+{% if theme == 'bright' %}
+    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-flatly.min.css" />
+{% endif %}
 <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/chartist/chartist.min.css" />
 <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/plugins/bootstrap-slider/bootstrap-slider.min.css" />
 <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/plugins/datetimepicker/bootstrap-datetimepicker.min.css" />

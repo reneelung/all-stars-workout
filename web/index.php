@@ -27,6 +27,9 @@
         $app['twig']->addGlobal('msg_type', $msg_type[0]);
         $app['twig']->addGlobal('app_path', APP_PATH );
         $app['twig']->addGlobal('is_logged_in', $app['session']->get('is_logged_in'));
+
+        $theme = $app['session']->get('theme') ? $app['session']->get('theme') : 'default';
+        $app['twig']->addGlobal('theme', $theme);
     });
 
     $app->register(new Silex\Provider\AssetServiceProvider(), array(
