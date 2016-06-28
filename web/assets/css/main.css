@@ -16,3 +16,7 @@
 .home-data.table > tbody > tr > td {
     border: none;
 }
+
+.badge.like, .badge.user-comment {
+    background: #337ab7;
+}

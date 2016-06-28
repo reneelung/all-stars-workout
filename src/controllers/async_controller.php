@@ -47,4 +47,18 @@ $async->get('/user/workouts/type/{type}', function($type) use($app) {
     }
 });
 
+$async->post('/workouts/like/', function(Request $request) use($app) {
+    $workout_model = new Workout();
+    $id = $request->get('workout_id');
+    $user_id = $request->get('user_id');
+    return $app->json($workout_model->like_workout($id, $user_id));
+});
+
+$async->post('/workouts/unlike/', function(Request $request) use($app) {
+    $workout_model = new Workout();
+    $id = $request->get('workout_id');
+    $user_id = $request->get('user_id');
+    return $app->json($workout_model->unlike_workout($id, $user_id));
+});
+
 $app->mount('/async', $async);

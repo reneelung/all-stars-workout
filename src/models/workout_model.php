@@ -11,7 +11,13 @@ Class Workout {
     }
 
     function get_workouts_by_user($user_id) {
-        return $this->db->fetchAll('SELECT * FROM `workouts` WHERE `user_id` = ? ORDER BY `date` DESC', array($user_id));
+        return $this->db->fetchAll('SELECT * FROM `workouts`
+          LEFT JOIN ( SELECT `workout_id`, COUNT(`workout_id`) AS `likes` FROM `workout_likes` GROUP BY `workout_id`) AS `like_totals`
+          ON `like_totals`.`workout_id` = `workouts`.`id`
+          LEFT JOIN (SELECT `workout_id`, COUNT(`workout_id`) AS `user_comments` FROM `workout_comments` GROUP BY `workout_id`) AS `user_comments`
+          ON `user_comments`.`workout_id` = `workouts`.`id`
+          WHERE `workouts`.`user_id` = ?
+          ORDER BY `date` DESC', array($user_id));
     }
 
     function get_all_workouts() {
@@ -106,7 +112,31 @@ Class Workout {
         $this->db->delete('workouts', array('id' => $id));
     }
 
+    function get_likes($workout_id) {
+        $likes = $this->db->fetchAssoc('SELECT COUNT(*) as `likes` FROM `workout_likes` WHERE `workout_likes`.`workout_id` = ?', array($workout_id));
+        return $likes['likes'];
+    }
+
+    function like_workout($workout_id, $user_id) {
+        if (!$this->already_liked($workout_id, $user_id)) {
+            $this->db->insert('workout_likes', array('workout_id' => $workout_id, 'user_id' => $user_id));
+            return $this->get_likes($workout_id);
+        } else {
+            return false;
+        }
+    }
+
+    function unlike_workout($workout_id, $user_id) {
+        $this->db->delete('workout_likes', array('workout_id' => $workout_id, 'user_id' => $user_id));
+        return $this->get_likes($workout_id);
+    }
+
     // Calculations
+
+    function already_liked($id, $user_id) {
+        $likes = $this->db->fetchAssoc('SELECT COUNT(*) as `likes` FROM `workout_likes` WHERE `workout_likes`.`workout_id` = ? AND `workout_likes`.`user_id` = ?', array($id, $user_id));
+        return $likes['likes'] > 0;
+    }
 
     function longest_workout($workouts) {
         $longest['duration'] = 0;

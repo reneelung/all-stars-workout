@@ -20,6 +20,31 @@
                             <strong> {{ workout.type | capitalize }}</strong>, <em>{{ workout.duration }} mins</em>
                         </p>
                     </div>
+                    {% if workout.likes or workout.user_comments or visitor %}
+                        <div class="panel-footer clearfix">
+                            <div class="counts pull-left">
+                                {% if workout.likes %}
+                                    <div class="like badge">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                                        <span class="like-count"> {{ workout.likes }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if workout.user_comments %}
+                                    <div class="user-comment badge">
+                                        <span class="user-comment glyphicon glyphicon-comment"></span>
+                                        <span class="user-comment-count">{{ workout.user_comments }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if visitor %}
+                                <div class="like-action pull-right">
+                                    <button class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
                 <hr>
             {% endfor %}
