@@ -10,16 +10,22 @@ Class Workout {
         return $this;
     }
 
-    function get_workouts_by_user($user_id) {
-        return $this->db->fetchAll('SELECT * FROM `workouts` WHERE `user_id` = ? ORDER BY `date` DESC', array($user_id));
+    function get_workouts_by_user($user_id, $order='DESC') {
+        return $this->db->fetchAll('SELECT * FROM `workouts`
+          LEFT JOIN ( SELECT `workout_id`, COUNT(`workout_id`) AS `likes` FROM `workout_likes` GROUP BY `workout_id`) AS `like_totals`
+          ON `like_totals`.`workout_id` = `workouts`.`id`
+          LEFT JOIN (SELECT `workout_id`, COUNT(`workout_id`) AS `user_comments` FROM `workout_comments` GROUP BY `workout_id`) AS `user_comments`
+          ON `user_comments`.`workout_id` = `workouts`.`id`
+          WHERE `workouts`.`user_id` = ?
+          ORDER BY `date` '.$order, array($user_id));
     }
 
-    function get_all_workouts() {
-        return $this->db->fetchAll('SELECT * FROM `workouts` ORDER BY `date` DESC');
+    function get_all_workouts($order_by='DESC') {
+        return $this->db->fetchAll('SELECT * FROM `workouts` ORDER BY `date` '.$order_by);
     }
 
-    function get_workout_data($id=null) {
-        $workouts = $id ? $this->get_workouts_by_user($id) : $this->get_all_workouts();
+    function get_workout_data($id=null, $order_by='DESC') {
+        $workouts = $id ? $this->get_workouts_by_user($id, $order_by) : $this->get_all_workouts($order_by);
         $time_data = $this->get_workout_times($workouts);
         return array(
             'by_date' => $workouts,
@@ -46,8 +52,8 @@ Class Workout {
         return $types;
     }
 
-    function get_workouts_by_type($id = null, $type = 'undefined') {
-        $workouts = $id ? $this->get_workouts_by_user($id) : $this->get_all_workouts();
+    function get_workouts_by_type($id = null, $type = 'undefined', $order_by='DESC') {
+        $workouts = $id ? $this->get_workouts_by_user($id, $order_by) : $this->get_all_workouts($order_by);
         $types = $this->get_workout_types();
         foreach ($types as $t) {
             $times_by_type[$t] = array();
