@@ -1,89 +1,14 @@
 $(document).ready(function(){
-
-    var chartData = {}, lineChart;
-
-    by_type();
+    app.workoutCharts.by_type('user');
 
     $('.summary').click(function() {
-        summary();
+        app.workoutCharts.summary('user');
     });
     $('.by-type').click(function() {
-        isolate_by_type($(this).attr('id'));
+        if (app.workoutCharts.typeChart) {
+            app.workoutCharts.isolate_by_type($(this).attr('id'));
+        } else {
+            app.workoutCharts.by_type('user');
+        }
     });
-
-    function summary() {
-        $.get(
-            '/async/user/workouts',
-            {},
-            function(response) {
-                var data = {
-                    labels: [],
-                    datasets: [{
-                        label: "Workout Times",
-                        data:[],
-                        backgroundColor: randomColor(),
-                        borderColor: randomColor()
-                    }]
-                };
-                $.each(response.by_date, function(index, workout) {
-                    data.labels.push(workout.date);
-                    data.datasets[0].data.push(workout.duration);
-                });
-
-                lineChart = new Chart.Line($('.ct-chart'), { type: 'line', data: data});
-            }
-        );
-    }
-
-    function by_type(type) {
-        $.get(
-            '/async/user/workouts/type/' + type,
-            {},
-            function(response) {
-                var data = {
-                    labels : response.dates,
-                    datasets : []
-                };
-
-                $.each(response.types, function(name, vals) {
-                    data.datasets.push({
-                        label: name,
-                        data: vals,
-                        backgroundColor: randomColor(),
-                        borderColor: randomColor(),
-                        lineTension: 0
-                    });
-                });
-                chartData = data;
-                lineChart = new Chart.Line($('.ct-chart'), { type: 'line', data: chartData});
-            }
-        );
-    }
-
-    function isolate_by_type(type) {
-        $.each(chartData.datasets, function(i, obj){
-            if (obj.label !== type) {
-                obj.backgroundColor = changeChartOpacity(0.1, obj.backgroundColor);
-            } else {
-                obj.backgroundColor = changeChartOpacity(0.5, obj.backgroundColor);
-            }
-        });
-
-        lineChart.update();
-    }
-
-    function changeChartOpacity(targetOpacity, rgbaVal) {
-        var pattern = /[0-9]+,[0-9]+,[0-9]+,0?\.?[0-9]/;
-        var match = pattern.exec(rgbaVal);
-        matches = match[0].split(',');
-
-        return "rgba(" + [matches[0], matches[1], matches[2]].concat() + "," + targetOpacity + ")";
-    }
-
-    function randomColorFactor() {
-        return Math.round(Math.random() * 255);
-    }
-    function randomColor(opacity) {
-        return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
-    }
 });

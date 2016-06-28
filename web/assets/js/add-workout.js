@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // With JQuery
+
     $(".slider-duration").on("change", function(slideEvt) {
         $("#slider-duration-cur-val").text($(this).val());
     });
