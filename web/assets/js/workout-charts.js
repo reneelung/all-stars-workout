@@ -2,7 +2,7 @@ function workoutChartsInit() {
     return {
         typeChartData: {},
         summaryChartData: {},
-
+        defaultOpacity: 0.3,
         summary: function(groupType) {
             var base = this;
             $.get(
@@ -14,8 +14,8 @@ function workoutChartsInit() {
                         datasets: [{
                             label: "Workout Times",
                             data:[],
-                            backgroundColor: app.utils.randomColor(),
-                            borderColor: app.utils.randomColor(),
+                            backgroundColor: app.utils.randomColor(base.defaultOpacity),
+                            borderColor: app.utils.randomColor(base.defaultOpacity),
                             lineTension: 0
                         }]
                     };
@@ -24,7 +24,7 @@ function workoutChartsInit() {
                         data.datasets[0].data.push(workout.duration);
                     });
                     base.summaryChartData = data;
-                    base.summaryChart = new Chart.Line($('.ct-chart'), { type: 'line', data: data});
+                    base.summaryChart = new Chart.Line($('.ct-chart'), { type: 'line', data: data });
                 }
             );
         },
@@ -43,8 +43,8 @@ function workoutChartsInit() {
                         data.datasets.push({
                             label: name,
                             data: vals,
-                            backgroundColor: app.utils.randomColor(),
-                            borderColor: app.utils.randomColor(),
+                            backgroundColor: app.utils.randomColor(base.defaultOpacity),
+                            borderColor: app.utils.randomColor(base.defaultOpacity),
                             lineTension: 0
                         });
                     });
@@ -57,10 +57,10 @@ function workoutChartsInit() {
             var base = this;
             $.each(base.typeChartData.datasets, function(i, obj){
                 if (obj.label !== type && typeof type != 'undefined' && type != null) {
-                    obj.backgroundColor = changeChartOpacity(0.1, obj.backgroundColor);
+                    obj.backgroundColor = changeChartOpacity(0.3*base.defaultOpacity, obj.backgroundColor);
                     obj.borderDash = [5,5];
                 } else {
-                    obj.backgroundColor = changeChartOpacity(0.5, obj.backgroundColor);
+                    obj.backgroundColor = changeChartOpacity(base.defaultOpacity, obj.backgroundColor);
                     obj.borderDash = [0,0];
                 }
             });
@@ -73,6 +73,15 @@ function workoutChartsInit() {
                 matches = match[0].split(',');
 
                 return "rgba(" + [matches[0], matches[1], matches[2]].concat() + "," + targetOpacity + ")";
+            }
+        },
+        set_theme: function() {
+            var base = this;
+            if (app.vars.theme == 'dark') {
+                Chart.defaults.scale.gridLines.color = "rgba(255,255,255,0.8)";
+                Chart.defaults.scale.scaleLabel.fontColor = "#FFFFFF";
+                Chart.defaults.scale.ticks.fontColor = "#FFFFFF";
+                base.defaultOpacity = 0.8;
             }
         }
     }

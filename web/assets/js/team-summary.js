@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    app.workoutCharts.set_theme();
     app.workoutCharts.by_type('team');
 
     $('.summary').click(function() {
