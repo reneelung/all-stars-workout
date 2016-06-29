@@ -117,10 +117,11 @@ Class Workout {
     // Calculations
 
     function date_range($workouts) {
+        $end_date = new DateTime(date('Y-m-d', strtotime(array_pop($workouts)['date'])));
         $date_range = new DatePeriod(
             new DateTime(date('Y-m-d', strtotime($workouts[0]['date']))),
             new DateInterval('P1D'),
-            new DateTime(date('Y-m-d', strtotime($workouts[count($workouts)-1]['date'])))
+            $end_date->add(new DateInterval('P1D'))
         );
 
         $dates = array();

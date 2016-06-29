@@ -53,7 +53,7 @@ function workoutChartsInit() {
                         });
                     });
                     base.typeChartData = data;
-                    base.typeChart = new Chart.Bar($('.ct-chart'), { type: 'bar', data: base.typeChartData, options: {
+                    base.typeChart = new Chart($('.ct-chart'), { type: 'bar', data: base.typeChartData, options: {
                         scales: {
                             xAxes: [{
                                 stacked: true
