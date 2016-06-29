@@ -2,7 +2,7 @@ function workoutChartsInit() {
     return {
         typeChartData: {},
         summaryChartData: {},
-        defaultOpacity: 0.3,
+        defaultOpacity: 0.7,
         summary: function(groupType) {
             var base = this;
             $.get(
@@ -19,9 +19,9 @@ function workoutChartsInit() {
                             lineTension: 0
                         }]
                     };
-                    $.each(response.by_date, function(index, workout) {
-                        data.labels.push(workout.date);
-                        data.datasets[0].data.push(workout.duration);
+                    $.each(response.by_time.time_by_day, function(date, minutes) {
+                        data.labels.push(date);
+                        data.datasets[0].data.push(minutes);
                     });
                     base.summaryChartData = data;
                     base.summaryChart = new Chart.Line($('.ct-chart'), { type: 'line', data: data });
@@ -40,16 +40,26 @@ function workoutChartsInit() {
                     };
 
                     $.each(response.types, function(name, vals) {
+                        var totals = [];
+                        $.each(vals, function(date, mins) {
+                            totals.push(mins);
+                        });
                         data.datasets.push({
                             label: name,
-                            data: vals,
+                            data: totals,
                             backgroundColor: app.utils.randomColor(base.defaultOpacity),
                             borderColor: app.utils.randomColor(base.defaultOpacity),
                             lineTension: 0
                         });
                     });
                     base.typeChartData = data;
-                    base.typeChart = new Chart.Line($('.ct-chart'), { type: 'line', data: base.typeChartData});
+                    base.typeChart = new Chart.Bar($('.ct-chart'), { type: 'bar', data: base.typeChartData, options: {
+                        scales: {
+                            xAxes: [{
+                                stacked: true
+                            }]
+                        }
+                    }});
                 }
             );
         },

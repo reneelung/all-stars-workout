@@ -10,20 +10,21 @@ Class Workout {
         return $this;
     }
 
+    // Get workouts for a single user
     function get_workouts_by_user($user_id, $order='DESC') {
-        return $this->db->fetchAll('SELECT * FROM `workouts`
-          LEFT JOIN ( SELECT `workout_id`, COUNT(`workout_id`) AS `likes` FROM `workout_likes` GROUP BY `workout_id`) AS `like_totals`
-          ON `like_totals`.`workout_id` = `workouts`.`id`
-          LEFT JOIN (SELECT `workout_id`, COUNT(`workout_id`) AS `user_comments` FROM `workout_comments` GROUP BY `workout_id`) AS `user_comments`
-          ON `user_comments`.`workout_id` = `workouts`.`id`
-          WHERE `workouts`.`user_id` = ?
-          ORDER BY `date` '.$order, array($user_id));
+        return $this->db->fetchAll('SELECT * FROM `workouts`'
+          .'LEFT JOIN ( SELECT `workout_id`, COUNT(`workout_id`) AS `likes` FROM `workout_likes` GROUP BY `workout_id`) AS `like_totals` ON `like_totals`.`workout_id` = `workouts`.`id`'
+          .'LEFT JOIN (SELECT `workout_id`, COUNT(`workout_id`) AS `user_comments` FROM `workout_comments` GROUP BY `workout_id`) AS `user_comments` ON `user_comments`.`workout_id` = `workouts`.`id`'
+          .'WHERE `workouts`.`user_id` = ?'
+          .'ORDER BY `date` '.$order, array($user_id));
     }
 
+    // Get all workouts regardless of user
     function get_all_workouts($order_by='DESC') {
         return $this->db->fetchAll('SELECT * FROM `workouts` ORDER BY `date` '.$order_by);
     }
 
+    // Wrapper for getting workouts regardless of whether user or group
     function get_workout_data($id=null, $order_by='DESC') {
         $workouts = $id ? $this->get_workouts_by_user($id, $order_by) : $this->get_all_workouts($order_by);
         $time_data = $this->get_workout_times($workouts);
@@ -33,6 +34,7 @@ Class Workout {
         );
     }
 
+    // Get workouts for home page stats
     function home_data($user_id, $is_team) {
         $workouts = $is_team ? $this->get_all_workouts() : $this->get_workouts_by_user($user_id);
         $data['workouts_logged'] = count($workouts);
@@ -52,39 +54,39 @@ Class Workout {
         return $types;
     }
 
-    function get_workouts_by_type($id = null, $type = 'undefined', $order_by='DESC') {
-        $workouts = $id ? $this->get_workouts_by_user($id, $order_by) : $this->get_all_workouts($order_by);
+
+    function get_workouts_by_type($user_id = null, $type = 'undefined', $order_by='DESC') {
+        $workouts = $user_id ? $this->get_workouts_by_user($user_id, $order_by) : $this->get_all_workouts($order_by);
         $types = $this->get_workout_types();
         foreach ($types as $t) {
-            $times_by_type[$t] = array();
+            $times_by_type[$t] = $this->date_range($workouts);
         }
-        foreach($workouts as $workout) {
-            $dates[] = $workout['date'];
-            foreach ($types as $t) {
-                $times_by_type[$t][] = $workout['type'] == $t ? $workout['duration'] : 0;
+        foreach ($types as $t) {
+            foreach ($workouts as $workout) {
+                $times_by_type[$t][date('Y-m-d',strtotime($workout['date']))] += ($workout['type'] == $t) ? $workout['duration'] : 0;
             }
         }
 
-        if ($type != 'undefined') {
-            $times_by_type = array(
-                $type => $times_by_type[$type]
-            );
-        }
-        return array('dates' => $dates, 'types' => $times_by_type);
+        return array('dates' => array_keys($this->date_range($workouts)), 'types' => $times_by_type);
     }
 
     function get_workout_times($workouts) {
         $total_time = 0;
+        $time_by_day = $this->date_range($workouts);
         $types = array();
         foreach ($workouts as $workout) {
             $total_time += $workout['duration'];
             if (!in_array($workout['type'], array_keys($types))) {
                 $types[$workout['type']] = $workout['duration'];
             };
+
+            $day = date('Y-m-d', strtotime($workout['date']));
+            $time_by_day[$day] = $time_by_day[$day] + $workout['duration'];
         }
         $data = array(
             'total_time' => $total_time,
-            'time_by_types' => $types
+            'time_by_types' => $types,
+            'time_by_day' => $time_by_day
         );
         return $data;
     }
@@ -113,6 +115,21 @@ Class Workout {
     }
 
     // Calculations
+
+    function date_range($workouts) {
+        $date_range = new DatePeriod(
+            new DateTime(date('Y-m-d', strtotime($workouts[0]['date']))),
+            new DateInterval('P1D'),
+            new DateTime(date('Y-m-d', strtotime($workouts[count($workouts)-1]['date'])))
+        );
+
+        $dates = array();
+        foreach ($date_range as $date) {
+            $dates[$date->format("Y-m-d")] = 0;
+        };
+
+        return $dates;
+    }
 
     function longest_workout($workouts) {
         $longest['duration'] = 0;
