@@ -1,6 +1,9 @@
 # Team Workout Tracker
 A simple web-based application for teammates to track and share workouts.
 
+# UPDATE
+Data aggregation errors have been resolved! Enjoy the data visualization. :magic:
+
 ## Current Features
 * Account Features
   * Change Derby/display name
@@ -19,7 +22,7 @@ A simple web-based application for teammates to track and share workouts.
   * View aggregate team workout minutes
   * View teammates with link to their workouts if sharing is on
 
-## Future Releases / TODO
+## Future Releases
 
 * Account Features
   * [ ] Choose a cute avatar
@@ -33,8 +36,4 @@ A simple web-based application for teammates to track and share workouts.
   * [ ] Comment on teammates' shared workouts
   * [ ] Notify when workout is liked
   * [ ] Pagination/Views by week or month
-
-## Known Bugs
-* Workout duration is not summed by day (ie duplicate x-axis points)
-* Workout duration by day by type is not summed (see above)
 
