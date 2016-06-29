@@ -2,7 +2,7 @@
 A simple web-based application for teammates to track and share workouts.
 
 # UPDATE
-Data aggregation errors have been resolved! Enjoy the data visualization. :magic:
+Data aggregation errors have been resolved! Enjoy the data visualization. :bar_chart: :chart_with_upwards_trend: :tada:
 
 ## Current Features
 * Account Features
