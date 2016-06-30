@@ -17,7 +17,7 @@ function workoutChartsInit() {
                     var data = {
                         labels: [],
                         datasets: [{
-                            label: "Workout Times",
+                            label: "Total Minutes",
                             data:[],
                             backgroundColor: app.utils.randomColor(base.defaultOpacity),
                             borderColor: app.utils.randomColor(base.defaultOpacity),
