@@ -3,8 +3,13 @@ function workoutChartsInit() {
         typeChartData: {},
         summaryChartData: {},
         defaultOpacity: 0.7,
+        summaryChart: {},
+        typeChart: {},
         summary: function(groupType) {
             var base = this;
+            if (!$.isEmptyObject(base.typeChart)) {
+                base.typeChart.destroy();
+            }
             $.get(
                 app.vars.app_path + '/async/' + groupType + '/workouts',
                 {},
@@ -24,12 +29,25 @@ function workoutChartsInit() {
                         data.datasets[0].data.push(minutes);
                     });
                     base.summaryChartData = data;
-                    base.summaryChart = new Chart.Line($('.ct-chart'), { type: 'line', data: data });
+                    base.summaryChart = new Chart($('.ct-chart'), { type: 'line', data: data,
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        min: 0
+                                    }
+                                }]
+                            }
+                        }
+                    });
                 }
             );
         },
         by_type: function(groupType, type) {
             var base = this;
+            if (!$.isEmptyObject(base.summaryChart)) {
+                base.summaryChart.destroy();
+            }
             $.get(
                 app.vars.app_path + '/async/' + groupType + '/workouts/type/' + type,
                 {},
