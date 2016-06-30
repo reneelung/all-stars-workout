@@ -8,5 +8,6 @@ function init() {
     return {
         utils: utilsInit(),
         workoutCharts: workoutChartsInit(),
+        like: likeInit()
     };
 }

@@ -11,6 +11,12 @@ $team->get('/', function() use($app) {
 $team->get('/members', function() use($app) {
     $user_model = new User();
     $members = $user_model->get_all();
+    $current_user = $app['session']->get('user');
+    foreach ($members as $index => $member) {
+        if ($member['id'] == $current_user['id']) {
+            unset($members[$index]);
+        }
+    }
     return $app['twig']->render('/team/members.twig', array('members' => $members));
 });
 

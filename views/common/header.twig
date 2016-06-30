@@ -1,10 +1,9 @@
 <title>All Stars Workout</title>
 {% if theme == 'default' %}
-    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-lumen.min.css" />
 {% endif %}
 {% if theme == 'dark' %}
-    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-darkly.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-superhero.min.css" />
 {% endif %}
 {% if theme == 'bright' %}
     <link rel="stylesheet" type="text/css" href="{{ app_path }}/assets/bootstrap/css/bootstrap-flatly.min.css" />
@@ -22,6 +21,7 @@
 <script type="text/javascript" src="{{ app_path }}/assets/bootstrap/plugins/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="{{ app_path }}/assets/chart/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="{{ app_path }}/assets/js/workout-charts.js"></script>
+<script type="text/javascript" src="{{ app_path }}/assets/js/like.js"></script>
 <script type="text/javascript" src="{{ app_path }}/assets/js/utils.js"></script>
 <script type="text/javascript" src="{{ app_path }}/assets/js/app.js"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -30,5 +30,9 @@
     app.vars = {
         app_path: '{{ app_path }}',
         theme: '{{ theme }}'
+        {% set user = app.session.get('user') %}
+            {% if user %}
+                , user_id: '{{ user['id'] }}'
+            {% endif %}
     }
 </script>

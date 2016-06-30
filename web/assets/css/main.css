@@ -16,3 +16,7 @@
 .home-data.table > tbody > tr > td {
     border: none;
 }
+
+.counts > .like, .counts > .user-comment {
+    opacity: 1;
+}

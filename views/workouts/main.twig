@@ -10,15 +10,37 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <small>{{ workout.date | date("F jS, Y") }}</small>
-                        <h4>
-                            {{ workout.title }}
-                            <a href="./{{ workout.id }}" type="button" class=" pull-right btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> View</a>
-                        </h4>
+                        <h4>{{ workout.title }}</h4>
                     </div>
                     <div class="panel-body">
                         <p>
                             <strong> {{ workout.type | capitalize }}</strong>, <em>{{ workout.duration }} mins</em>
                         </p>
+                    </div>
+                    <div class="panel-footer clearfix">
+                        <div class="btn-group btn-group-sm counts">
+                            {% if not visitor or workout.already_liked %}
+                            <a class="like
+                                        btn
+                                        btn-info
+                                        disabled "
+                                workout-id="{{ workout.id }}">
+                                <span class="fa fa-thumbs-up"></span>
+                                <span class="like-count"> {{ workout.likes }}</span>
+                            </a>
+                            {% else %}
+                            <a class="like
+                                    btn
+                                    btn-info"
+                               workout-id="{{ workout.id }}">
+                                <span class="fa fa-thumbs-up"></span>
+                                <span class="like-count">Like</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                        <div class="like-action pull-right">
+                            <a href="./{{ workout.id }}" type="button" class=" pull-right btn btn-primary btn-sm"><span class="fa fa-external-link" aria-hidden="true"></span> View</a>
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -32,4 +54,5 @@
     {% if not visitor %}
         <a href="./new" class="btn btn-primary btn-lg">Add a workout</a>
     {% endif %}
+    <script type="text/javascript" src="{{ app_path }}/assets/js/workouts-main.js"></script>
 {% endblock %}

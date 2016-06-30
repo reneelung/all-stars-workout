@@ -5,7 +5,7 @@ $workouts = $app['controllers_factory'];
 $workouts->get('/', function(Request $request) use($app) {
     $workout_model = new Workout();
     $user_model = new User();
-    $user = $app['session']->get('user');
+    $user = $current_user = $app['session']->get('user');
     $visitor = false;
     if ($request->get('member_id')) {
         $requested_user = $user_model->get_user($request->get('member_id'));
@@ -15,6 +15,9 @@ $workouts->get('/', function(Request $request) use($app) {
         }
     }
     $workouts = $workout_model->get_workouts_by_user($user['id']);
+    foreach ($workouts as &$workout) {
+        $workout['already_liked'] = $workout_model->already_liked($workout['id'], $current_user['id']);
+    }
     return $app['twig']->render('/workouts/main.twig', array('user' => $user, 'workouts' => $workouts, 'visitor' => $visitor));
 });
 
