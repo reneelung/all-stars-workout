@@ -39,7 +39,10 @@
                             {% endif %}
                         </div>
                         <div class="like-action pull-right">
-                            <a href="./{{ workout.id }}" type="button" class=" pull-right btn btn-primary btn-sm"><span class="fa fa-external-link" aria-hidden="true"></span> View</a>
+                            <a href="./{{ workout.id }}" type="button" class="pull-right btn btn-primary btn-sm"><span class="fa fa-external-link" aria-hidden="true"></span> View</a>
+                            {% if not visitor %}
+                                <a href="./edit/{{ workout.id }}" type="button" class="pull-right btn btn-warning btn-sm"><span class="fa fa-pencil" aria-hidden="true"></span> Edit</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
