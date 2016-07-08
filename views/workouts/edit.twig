@@ -1,0 +1,58 @@
+{% extends "index.twig" %}
+{% block content %}
+    <h1>Editing: "{{ workout.title }}"</h1><br/>
+    <div class="jumbotron">
+        <form method="post" action="{{ app_path }}/workouts/edit" data-toggle="validator">
+            <div class="form-group">
+                <label for="first_name">Title</label>
+                <input type="text" class="form-control" name="title" value="{{ workout.title }}"required>
+                <div class="help-block">Required</div>
+            </div>
+            <div class="form-group">
+                <label for="first_name">Type</label>
+                <select name="type_select" id="type_select" class="form-control">
+                    {% for type in types %}
+                        <option value="{{ type }}" {% if workout.type == type %}selected{% endif %}>{{ type | capitalize }}</option>
+                    {% endfor %}
+                    <option value="add_new">Add a new type</option>
+                </select>
+                <input type="text" name="type_text" id="type_text" class="form-control hidden" placeholder="New workout type">
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <div class="form-inline">
+                    <div class="input-group date">
+                        <input type="text" id="datetimepicker-1" class="form-control" name="date" value="June 26, 2016">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                    <div class="input-group date">
+                        <input id="datetimepicker-2" type="text" class="form-control" name="time" value="{{ workout.date | date('H:i:s') }}">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="duration" placeholder="How long was your workout?" aria-describedby="duration" value="{{ workout.duration }}"required>
+                    <span class="input-group-addon" id="basic-addon2">minutes</span>
+                </div>
+                <div class="help-block">Required</div>
+            </div>
+            <div class="form-group">
+                <label for="comments">Details</label>
+                <textarea name="comments" class="form-control" rows="4" placeholder="A short description of what you did during your workout; e.g., 3 sets of 10 pushups etc.">{{ workout.comments }}</textarea>
+            </div>
+            <div class="form-group">
+                <input type="hidden" value="{{ workout.id }}" name="id"/>
+                <input class="btn btn-primary" type="submit" value="Save Changes">
+                <a class="btn btn-warning" href="{{ app_path }}/workouts/{{ workout.id }}" type="submit">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="{{ app_path }}/assets/js/add-workout.js"></script>
+{% endblock %}

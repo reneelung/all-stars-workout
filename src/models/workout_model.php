@@ -106,12 +106,14 @@ Class Workout {
 
         if ($id) {
             $result = $this->db->update('workouts', $params, array('id' => $id));
+            $return_id = $id;
         } else {
             $result = $this->db->insert('workouts', $params);
+            $return_id = $this->db->lastInsertId();
         }
 
-        if($result) {
-            return $id ? $this->get_workout($id) : $this->db->lastInsertId();
+        if ($result) {
+            return $this->get_workout($return_id);
         } else {
             return false;
         }
